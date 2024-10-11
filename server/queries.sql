@@ -1,0 +1,1 @@
+-- List of queries I used on supabase SQL Editor
