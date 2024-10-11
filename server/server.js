@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import pg from "pg";
 import dotenv from "dotenv";
@@ -22,4 +22,13 @@ app.get("/", (request, response) => {
   response.json({ message: "You are currently at the root route" });
 });
 
+app.get("/get-usernames", async (request, response) => {
+  try {
+    const query = await db.query(`SELECT user_name FROM users`);
+    response.status(200).json(query.rows);
+  } catch {
+    console.error("There has been an error in /get-usernames.", error);
+    response.status(500).json({ success: false });
+  }
+});
 // TODO get, post, put, delete endpoints.
