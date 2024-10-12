@@ -1,27 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Table from "../components/Table";
+import "./TablePage.css";
 export default function TablePage() {
   const [formValue, setFormValue] = useState("");
-  const [dbEntries, setDbEntries] = useState([]);
-  useEffect(() => {
-    try {
-      async function fetchTable() {
-        // Due to complexity of each query to get table, it is necessary to seperate them into 3 end points.
-        const fetchedData = await fetch(`http://localhost:8080/get-${formValue}`, {
-          method: "GET",
-          headers: {
-            "Access-Control-Allow-Origin": "https://week-4-project-cxss.onrender.com",
-            "Content-type": "application/json",
-          },
-        });
-        const parsedData = await fetchedData.json();
-        const wrangledData = parsedData.rows;
-        setDbEntries([wrangledData]);
-      }
-      fetchTable();
-    } catch (error) {
-      console.log("There has been an error getting the table", error);
-    }
-  }, [formValue]);
+
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -29,7 +11,7 @@ export default function TablePage() {
     setFormValue(event.target.value);
   }
   return (
-    <>
+    <section id="view-table">
       <form id="table-form" onSubmit={handleSubmit}>
         <label htmlFor="table">Select table to view: </label>
         <select name="table-list" id="table" value={formValue} onChange={handleFormValueChange}>
@@ -40,10 +22,7 @@ export default function TablePage() {
         </select>
         <button type="submit">View Table</button>
       </form>
-      {dbEntries.map((wrangledData) => {
-        wrangledData;
-        //!TODO finish later
-      })}
-    </>
+      <Table formValue={formValue} />
+    </section>
   );
 }

@@ -23,7 +23,6 @@ app.get("/", (request, response) => {
 });
 
 app.get("/get-", (request, response) => {
-  console.log("Get- NOTHING!!!!");
   response.json({ message: "placeholder null" });
 });
 
@@ -35,14 +34,20 @@ app.get("/get-games", async (request, response) => {
     console.error("Error getting games table", error);
   }
 });
-
-app.get("/get-characters", (request, response) => {
-  console.log("Get-characters");
-  response.json({ message: "placeholder char" });
+app.get("/get-characters", async (request, response) => {
+  try {
+    const query = await db.query(`SELECT character_name, ARRAY_AGG(games.game_acronym) as games
+FROM characters
+JOIN character_game ON characters.id = character_game.character_id
+JOIN games ON character_game.game_id = games.id
+GROUP BY characters.id;`);
+    response.status(200).json(query.rows);
+  } catch (error) {
+    console.error("Error getting games table", error);
+  }
 });
 
-app.get("/get-comments", (request, response) => {
-  console.log("Get-comments");
+app.get("/get-comments", async (request, response) => {
   response.json({ message: "placeholder comm" });
 });
 

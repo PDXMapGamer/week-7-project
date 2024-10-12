@@ -76,3 +76,43 @@ INSERT INTO characters(character_name) VALUES('Marth'),
 -- Seed some dummy usernames into the table
 INSERT INTO users(user_name) VALUES('Testusername 1'),
 ('Test 2');
+
+-- Get list of usernames 
+SELECT user_name FROM users WHERE user_name = 'some username'
+
+-- Get games list 
+SELECT game_name, game_acronym FROM games
+
+-- Add values to junction table.
+INSERT INTO character_game(character_id, game_id) VALUES(1,1),
+(1,3),
+(1,11),
+(1,12)
+(2,2),
+(2,15),
+(3,2),
+(3,15),
+(4,4),
+(5,4),
+(5,5),
+(6,6),
+(7,7),
+(8,7),
+(9,7),
+(10,8),
+(11,8),
+(12,9),
+(12,10),
+(13,10),
+(14,13),
+(15,14),
+(16,16),
+(17,16),
+(18,16)
+
+-- Get character list, and all games they are in
+SELECT character_name, ARRAY_AGG(games.game_acronym) as games
+FROM characters
+JOIN character_game ON characters.id = character_game.character_id
+JOIN games ON character_game.game_id = games.id
+GROUP BY characters.id;
