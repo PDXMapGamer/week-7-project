@@ -1,4 +1,5 @@
 import "./App.css";
+
 import NavBar from "./components/NavBar";
 import CommentsPage from "./pages/CommentsPage";
 import HomePage from "./pages/HomePage";

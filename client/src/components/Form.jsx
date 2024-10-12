@@ -9,8 +9,6 @@ export default function Form() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(userName);
-    //TODO Check if name is in the database
-    //TODO if not, insert the name into the database.
     //TODO fetch POST endpoint
     //TODO fetch: send method, body to the endpoint, and headers ("Content-Type": "application/json")
   }
