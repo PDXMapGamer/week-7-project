@@ -1,0 +1,22 @@
+nav {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+a {
+  margin-right: 50px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}
+a:hover {
+  color: grey;
+  text-decoration: underline;
+}
+@media (orientation: portrait) {
+  a {
+    margin-right: 25px;
+    font-size: 20px;
+  }
+}
