@@ -6,8 +6,6 @@ export default function NavBar() {
       <nav>
         <Link to="/">Homepage</Link>
         <Link to="/tables">View Tables</Link>
-        <Link to="/comments">View Comments</Link>
-        <Link to="/post-comment">Post Comment</Link>
       </nav>
     </header>
   );

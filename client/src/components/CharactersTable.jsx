@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 export default function CharactersTable() {
   const [dbEntries, setDbEntries] = useState([]);
@@ -33,7 +33,7 @@ export default function CharactersTable() {
             <h2>{entry.character_name}</h2>
             <h2>
               {entry.games.map((game) => (
-                <>{game}, </>
+                <Fragment key={game}>{game}, </Fragment>
               ))}
             </h2>
           </div>
