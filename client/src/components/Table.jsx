@@ -4,7 +4,6 @@ import CommentTable from "./CommentTable";
 export default function Table(props) {
   switch (props.formValue) {
     case "games":
-      // todo games page
       return <GamesTable />;
     case "characters":
       //todo characters page

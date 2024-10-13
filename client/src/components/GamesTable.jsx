@@ -25,7 +25,7 @@ export default function GamesTable() {
     <section>
       <div className="two-columns">
         <h2>Game Name:</h2>
-        <h2>Game Acronym</h2>
+        <h2>Game Acronym:</h2>
       </div>
       {dbEntries.map((element) =>
         element.map((entry) => (
