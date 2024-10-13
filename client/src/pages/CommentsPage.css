@@ -1,0 +1,14 @@
+.seven-columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) 50px 50px;
+  width: 75vw;
+  margin: auto;
+}
+h2 {
+  margin: none;
+}
+button {
+  height: 30px;
+  width: 75px;
+  margin: inherit;
+}

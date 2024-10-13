@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./PostCommentsPage.css";
+import { useParams } from "react-router-dom";
 export default function PostCommentPage() {
+  const { username } = useParams();
   const [charList, setCharList] = useState([]);
   const [gameList, setGameList] = useState([]);
   const [formValues, setFormValues] = useState({
@@ -8,6 +10,7 @@ export default function PostCommentPage() {
     game: "",
     rating: "",
     comment: "",
+    username: username,
   });
 
   function handleInputChange(event) {
@@ -17,10 +20,9 @@ export default function PostCommentPage() {
     try {
       async function fetchTable() {
         // Due to complexity of each query to get table, it is necessary to seperate them into 3 end points.
-        const fetchedData = await fetch(`http://localhost:8080/get-character-game-lists`, {
+        const fetchedData = await fetch(`https://week-7-project-server-npv2.onrender.com/get-character-game-lists`, {
           method: "GET",
           headers: {
-            "Access-Control-Allow-Origin": "https://week-4-project-cxss.onrender.com",
             "Content-type": "application/json",
           },
         });
@@ -33,18 +35,32 @@ export default function PostCommentPage() {
       console.log("There has been an error getting the table", error);
     }
   }, []);
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     console.log(formValues);
     const valid = formValidation();
     if (valid) {
-      // todo code for if valid
+      try {
+        const response = await fetch("https://week-7-project-server-npv2.onrender.com/post-comment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            formValues,
+          }),
+        });
+        console.log(await response.json());
+      } catch (error) {
+        console.error("Error sending data to the database", error);
+      }
+      //TODO fetch: send method, body to the endpoint, and headers ("Content-Type": "application/json")
     } else {
       //todo tell user that something is invalid
     }
   }
   function formValidation() {
-    // TODO form validation logic (too complex for html) here
+    // TODO stretch goal form validation logic (too complex for html) here. AKA make sure users can ONLY submit characters/game combinations that are acceptable.
+    // TODO Can use the characters + acronym query to check over all games a character is in
+    return true;
   }
 
   return (

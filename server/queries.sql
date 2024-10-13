@@ -116,3 +116,10 @@ FROM characters
 JOIN character_game ON characters.id = character_game.character_id
 JOIN games ON character_game.game_id = games.id
 GROUP BY characters.id;
+
+-- Get comments query
+SELECT user_name, character_name, game_acronym, comment, rating, likes FROM posts
+JOIN users ON posts.user_id = users.id
+JOIN character_game ON posts.character_id = character_game.character_id AND posts.game_id = character_game.game_id
+JOIN games ON character_game.game_id = games.id
+JOIN characters on character_game.character_id = characters.id

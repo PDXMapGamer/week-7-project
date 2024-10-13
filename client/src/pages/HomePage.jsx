@@ -10,7 +10,7 @@ export default function HomePage() {
     event.preventDefault();
     //TODO fetch POST endpoint
     try {
-      const response = await fetch("http://localhost:8080/usernames_submitted", {
+      const response = await fetch("https://week-7-project-server-npv2.onrender.com/usernames_submitted", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Table from "../components/Table";
-import "./TablePage.css";
+
 export default function TablePage() {
   const [formValue, setFormValue] = useState("");
 

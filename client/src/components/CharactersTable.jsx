@@ -6,10 +6,9 @@ export default function CharactersTable() {
     try {
       async function fetchTable() {
         // Due to complexity of each query to get table, it is necessary to seperate them into 3 end points.
-        const fetchedData = await fetch(`http://localhost:8080/get-characters`, {
+        const fetchedData = await fetch(`https://week-7-project-server-npv2.onrender.com/get-characters`, {
           method: "GET",
           headers: {
-            "Access-Control-Allow-Origin": "https://week-4-project-cxss.onrender.com",
             "Content-type": "application/json",
           },
         });

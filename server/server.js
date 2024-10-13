@@ -48,7 +48,17 @@ GROUP BY characters.id;`);
 });
 
 app.get("/get-comments", async (request, response) => {
-  response.json({ message: "placeholder comm" });
+  try {
+    const query =
+      await db.query(`SELECT posts.id, user_name, character_name, game_acronym, comment, rating, likes FROM posts
+JOIN users ON posts.user_id = users.id
+JOIN character_game ON posts.character_id = character_game.character_id AND posts.game_id = character_game.game_id
+JOIN games ON character_game.game_id = games.id
+JOIN characters on character_game.character_id = characters.id`);
+    response.status(200).json(query.rows);
+  } catch (error) {
+    console.error("There has been an error getting comments", error);
+  }
 });
 
 app.get("/get-character-game-lists", async (request, response) => {
@@ -87,21 +97,21 @@ app.post("/usernames_submitted", async (request, response) => {
 
 app.post("/post-comment", async (request, response) => {
   try {
-    const username = request.body.username;
+    const username = request.body.formValues.username;
     const userID = await db.query(`SELECT id FROM users WHERE user_name = $1;`, [username]);
     //Need to parse the fetched data into a usable form
     const UserIDObj = await userID.rows;
     const parsedUserID = UserIDObj[0].id;
-    const game = request.body.game;
+    const game = request.body.formValues.game;
     const gameID = await db.query(`SELECT id FROM games WHERE game_acronym = $1;`, [game]);
     const gameIDObj = await gameID.rows;
     const parsedgameID = gameIDObj[0].id;
-    const character = request.body.character;
+    const character = request.body.formValues.character;
     const characterID = await db.query(`SELECT id FROM characters WHERE character_name = $1;`, [character]);
     const characterIDObj = await characterID.rows;
     const parsedcharacterID = characterIDObj[0].id;
-    const comment = request.body.comment;
-    const rating = request.body.rating;
+    const comment = request.body.formValues.comment;
+    const rating = request.body.formValues.rating;
     db.query(`INSERT INTO posts(user_id, character_id, game_id, comment, rating) VALUES($1, $2, $3, $4, $5);`, [
       parsedUserID,
       parsedcharacterID,
@@ -115,8 +125,28 @@ app.post("/post-comment", async (request, response) => {
   } catch (error) {
     console.error("Error in post-comment endpoint", error);
   }
-  //todo get user id using thier username.
-  //todo get char id using char name
-  //todo get game id from game acronym
 });
 // TODO get, post, put, delete endpoints.
+app.put("/update-likes/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const likes = await db.query(`SELECT likes FROM posts WHERE id = $1;`, [id]);
+    const newLikes = parseInt(likes.rows[0].likes) + 1;
+    db.query(`UPDATE posts SET likes = $1 WHERE id = $2`, [newLikes, id]);
+    response.status(200).json({ message: "placeholder" });
+  } catch (error) {
+    console.error("Error updating likes", error);
+    response.status(500).json({ success: false });
+  }
+});
+
+app.delete("/delete-post/:id", async (request, respones) => {
+  try {
+    const { id } = request.params;
+    await db.query(`DELETE FROM posts WHERE id = $1`, [id]);
+    respones.status(200).json({ message: "Post deleted" });
+  } catch (error) {
+    console.error("Error deleting post", error);
+    respones.status(500).json({ success: false });
+  }
+});

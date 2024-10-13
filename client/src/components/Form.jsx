@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+//! This page is probably not being used but kept for the comments.
 export default function Form() {
   // TODO we need state to save the form values
   const [userName, setUserName] = useState("");
